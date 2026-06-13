@@ -1,15 +1,23 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { addBook, updateBook, deleteBook } from '../actions/book'
 
 export default function BookClient({ initialBooks }) {
   const [books, setBooks] = useState(initialBooks)
+  const [searchTerm, setSearchTerm] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingBook, setEditingBook] = useState(null)
   
-  // Update state without waiting for revalidation for optimistic UI
-  // Real app should handle errors better
+  useEffect(() => {
+    setBooks(initialBooks)
+  }, [initialBooks])
+
+  const filteredBooks = books.filter((book) => 
+    book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    book.author.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
   const handleAdd = async (formData) => {
     await addBook(formData)
     setIsModalOpen(false)
@@ -39,14 +47,40 @@ export default function BookClient({ initialBooks }) {
 
   return (
     <div className="p-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Quản lý Sách</h1>
-        <button 
-          onClick={openAdd}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-        >
-          + Thêm sách mới
-        </button>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">Quản lý Sách</h1>
+        </div>
+        <div className="flex flex-col sm:flex-row flex-1 md:justify-end gap-3 max-w-lg w-full">
+          <div className="relative flex-1">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </span>
+            <input
+              type="text"
+              placeholder="Tìm kiếm sách theo tên hoặc tác giả..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 pr-8 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+            />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm('')}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+          <button 
+            onClick={openAdd}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition whitespace-nowrap text-sm font-medium"
+          >
+            + Thêm sách mới
+          </button>
+        </div>
       </div>
 
       <div className="bg-white rounded-xl shadow overflow-hidden">
@@ -61,7 +95,7 @@ export default function BookClient({ initialBooks }) {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {initialBooks.map((book) => (
+            {filteredBooks.map((book) => (
               <tr key={book.id} className="hover:bg-gray-50 transition">
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{book.id}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{book.title}</td>
@@ -79,8 +113,10 @@ export default function BookClient({ initialBooks }) {
             ))}
           </tbody>
         </table>
-        {initialBooks.length === 0 && (
-          <div className="text-center py-8 text-gray-500">Chưa có sách nào trong thư viện.</div>
+        {filteredBooks.length === 0 && (
+          <div className="text-center py-8 text-gray-500">
+            {searchTerm ? 'Không tìm thấy sách phù hợp với từ khóa.' : 'Chưa có sách nào trong thư viện.'}
+          </div>
         )}
       </div>
 
