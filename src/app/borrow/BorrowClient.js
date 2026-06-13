@@ -70,6 +70,7 @@ export default function BorrowClient({ initialTickets, books, readers }) {
                 <th className="px-6 py-4">Độc giả</th>
                 <th className="px-6 py-4">Sách mượn</th>
                 <th className="px-6 py-4">Ngày mượn</th>
+                <th className="px-6 py-4">Hạn trả / Ngày trả</th>
                 <th className="px-6 py-4">Trạng thái</th>
                 <th className="px-6 py-4">Phí phạt</th>
                 <th className="px-6 py-4 text-right">Hành động</th>
@@ -88,6 +89,17 @@ export default function BorrowClient({ initialTickets, books, readers }) {
                     <td className="px-6 py-4 font-semibold text-text-app">{ticket.reader.name}</td>
                     <td className="px-6 py-4 text-text-app font-medium">{ticket.book.title}</td>
                     <td className="px-6 py-4 text-text-muted font-medium">{formatDate(ticket.borrowDate)}</td>
+                    <td className="px-6 py-4 text-text-muted font-medium">
+                      {ticket.returnDate ? (
+                        <div className="text-green-500 font-semibold">
+                          Đã trả: {formatDate(ticket.returnDate)}
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1.5">
+                          <span>Hạn: {formatDate(dueDate)}</span>
+                        </div>
+                      )}
+                    </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <span className={`px-2.5 py-1 text-xs font-semibold rounded-lg border ${
@@ -154,11 +166,11 @@ export default function BorrowClient({ initialTickets, books, readers }) {
                 <select 
                   name="readerId" 
                   required 
-                  className="w-full bg-slate-500/5 border border-card-border rounded-xl p-3 text-sm text-text-app focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition bg-card-app select-none cursor-pointer"
+                  className="w-full bg-white dark:bg-slate-800 border border-card-border rounded-xl p-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition select-none cursor-pointer"
                 >
-                  <option value="">-- Lựa chọn độc giả --</option>
+                  <option value="" className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100">-- Lựa chọn độc giả --</option>
                   {readers.map(r => (
-                    <option key={r.id} value={r.id}>{r.name} - {r.phone}</option>
+                    <option key={r.id} value={r.id} className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100">{r.name} - {r.phone}</option>
                   ))}
                 </select>
               </div>
@@ -168,11 +180,11 @@ export default function BorrowClient({ initialTickets, books, readers }) {
                 <select 
                   name="bookId" 
                   required 
-                  className="w-full bg-slate-500/5 border border-card-border rounded-xl p-3 text-sm text-text-app focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition bg-card-app select-none cursor-pointer"
+                  className="w-full bg-white dark:bg-slate-800 border border-card-border rounded-xl p-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition select-none cursor-pointer"
                 >
-                  <option value="">-- Lựa chọn sách --</option>
+                  <option value="" className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100">-- Lựa chọn sách --</option>
                   {books.map(b => (
-                    <option key={b.id} value={b.id} disabled={b.quantity <= 0}>
+                    <option key={b.id} value={b.id} disabled={b.quantity <= 0} className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100">
                       {b.title} {b.quantity <= 0 ? '(Hết sách)' : `(Còn ${b.quantity} cuốn)`}
                     </option>
                   ))}
