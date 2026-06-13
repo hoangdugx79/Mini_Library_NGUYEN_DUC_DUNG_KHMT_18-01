@@ -148,12 +148,11 @@ export default function ReaderClient({ initialReaders }) {
             </tbody>
           </table>
         </div>
-        </div>
         {readers.length === 0 && (
           <div className="text-center py-12 text-text-muted">Chưa có độc giả nào được đăng ký.</div>
         )}
       </div>
-      </div>
+    </div>
 
       {/* Add/Edit Modal */}
       {isModalOpen && (
