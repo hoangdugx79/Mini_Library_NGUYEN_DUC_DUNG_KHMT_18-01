@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Mini Library Management System
 
-## Getting Started
+Hệ thống quản lý thư viện mini được phát triển bằng các công nghệ hiện đại nhất (Next.js, Tailwind CSS, Prisma, SQLite), áp dụng kiến trúc MVC và quản lý mã nguồn chuyên nghiệp bằng Git.
 
-First, run the development server:
+## 🚀 Công nghệ sử dụng
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Framework**: [Next.js](https://nextjs.org/) (App Router, Server Actions)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Database**: [SQLite](https://sqlite.org/) (File-based, không cần cài đặt server)
+- **ORM**: [Prisma](https://www.prisma.io/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📂 Kiến trúc hệ thống (MVC)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Hệ thống được thiết kế theo mô hình Model-View-Controller, ứng dụng trực tiếp trong Next.js:
+- **Model (`prisma/schema.prisma`)**: Quản lý database schema (Sách, Độc giả, Phiếu mượn). Tương tác qua Prisma Client (`lib/db.js`).
+- **View (`app/.../page.js`, `...Client.js`)**: Các React Components kết hợp Tailwind CSS để render UI trực quan, mượt mà.
+- **Controller (`app/actions/...`)**: Next.js Server Actions đóng vai trò xử lý logic nghiệp vụ backend một cách bảo mật.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ✨ Chức năng chính
 
-## Learn More
+1. **Quản lý Sách**:
+   - Thêm, sửa, xóa thông tin sách.
+   - Theo dõi số lượng sách còn trong kho.
+2. **Quản lý Độc giả**:
+   - Đăng ký mới, cập nhật thông tin độc giả (Tên, SĐT).
+3. **Mượn / Trả Sách**:
+   - Tạo phiếu mượn (Tự động trừ số lượng sách, báo lỗi nếu kho hết sách).
+   - Xử lý trả sách (Cập nhật lại kho).
+   - Tự động tính toán phí phạt trễ hạn (Nếu mượn quá 7 ngày, phạt 5.000đ/ngày trễ).
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Hướng dẫn cài đặt và chạy ứng dụng
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Yêu cầu hệ thống
+- Máy tính đã cài đặt **Node.js** (phiên bản 18.x trở lên).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Các bước cài đặt
 
-## Deploy on Vercel
+1. **Clone/Tải mã nguồn về máy**:
+   Mở terminal trong thư mục chứa dự án.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Cài đặt các thư viện**:
+   ```bash
+   npm install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **Khởi tạo cơ sở dữ liệu (SQLite)**:
+   Hệ thống sử dụng SQLite nên mọi thứ rất đơn giản, chỉ cần chạy lệnh sau để push schema:
+   ```bash
+   npx prisma db push
+   ```
+   *(Thao tác này sẽ tự động tạo file `dev.db` trong thư mục project)*
+
+4. **Chạy ứng dụng (Development Mode)**:
+   ```bash
+   npm run dev
+   ```
+
+5. **Truy cập ứng dụng**:
+   Mở trình duyệt và truy cập: [http://localhost:3000](http://localhost:3000)
+
+## 🌳 Chiến lược quản lý mã nguồn (Git)
+
+Dự án tuân thủ nghiêm ngặt quy trình làm việc Git chuyên nghiệp:
+- Mã nguồn chính được lưu trên nhánh `master` (hoặc `main`).
+- Mỗi chức năng được phát triển trên một nhánh riêng biệt (`feature/manage-books`, `feature/manage-readers`, `feature/borrow-return`).
+- Sau khi hoàn thiện từng chức năng, tiến hành commit với message rõ ràng và Merge vào nhánh chính.
