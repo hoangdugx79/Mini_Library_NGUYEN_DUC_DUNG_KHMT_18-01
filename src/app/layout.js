@@ -1,16 +1,5 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Link from 'next/link';
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Sidebar from "./components/Sidebar";
 
 export const metadata = {
   title: "Mini Library Management System",
@@ -19,23 +8,29 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="vi">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 flex h-screen`}
-      >
-        <aside className="w-64 bg-white border-r shadow-sm flex flex-col">
-          <div className="h-16 flex items-center px-6 border-b">
-            <h1 className="text-xl font-bold text-blue-600">Mini Library</h1>
-          </div>
-          <nav className="flex-1 p-4 space-y-2">
-            <Link href="/" className="block px-4 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-700 font-medium">Dashboard</Link>
-            <Link href="/books" className="block px-4 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-700 font-medium">Quản lý Sách</Link>
-            <Link href="/readers" className="block px-4 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-700 font-medium">Quản lý Độc giả</Link>
-            <Link href="/borrow" className="block px-4 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-700 font-medium">Mượn / Trả sách</Link>
-          </nav>
-        </aside>
+    <html lang="vi" className="dark" suppressHydrationWarning>
+      <head>
+        {/* Script chống nhấp nháy giao diện (FOUC) khi tải trang */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark')
+                } else {
+                  document.documentElement.classList.remove('dark')
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
+      <body className="bg-bg-app text-text-app flex h-screen font-sans antialiased overflow-hidden">
+        {/* Sidebar Navigation */}
+        <Sidebar />
         
-        <main className="flex-1 overflow-auto">
+        {/* Main Workspace */}
+        <main className="flex-1 overflow-y-auto bg-bg-app relative transition-colors duration-300">
           {children}
         </main>
       </body>
