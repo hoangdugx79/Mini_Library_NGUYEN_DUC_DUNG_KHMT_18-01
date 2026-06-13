@@ -91,3 +91,9 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(148, 163, 184, 0.5);
 }
+
+/* Đảm bảo chữ trong dropdown của select luôn hiển thị rõ ràng trên mọi trình duyệt/hệ điều hành */
+select option {
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+}

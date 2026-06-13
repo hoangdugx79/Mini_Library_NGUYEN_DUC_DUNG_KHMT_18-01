@@ -75,27 +75,28 @@ export default function ReaderClient({ initialReaders }) {
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 animate-fade-in">
-      {/* Header section */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-card-border pb-6">
-        <div>
-          <h1 className="text-3xl font-extrabold font-title tracking-tight text-text-app">
-            Quản lý Độc giả
-          </h1>
-          <p className="text-text-muted text-sm mt-1">
-            Đăng ký thẻ, cập nhật thông tin và theo dõi lịch sử mượn trả của các độc giả.
-          </p>
+    <div className="p-8 max-w-7xl mx-auto space-y-8">
+      <div className="space-y-8 animate-fade-in">
+        {/* Header section */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-card-border pb-6">
+          <div>
+            <h1 className="text-3xl font-extrabold font-title tracking-tight text-text-app">
+              Quản lý Độc giả
+            </h1>
+            <p className="text-text-muted text-sm mt-1">
+              Đăng ký thẻ, cập nhật thông tin và theo dõi lịch sử mượn trả của các độc giả.
+            </p>
+          </div>
+          <button 
+            onClick={openAdd}
+            className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-emerald-500/10 hover:shadow-emerald-500/20 transition duration-200 flex items-center justify-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+            </svg>
+            Đăng ký độc giả
+          </button>
         </div>
-        <button 
-          onClick={openAdd}
-          className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-emerald-500/10 hover:shadow-emerald-500/20 transition duration-200 flex items-center justify-center gap-2"
-        >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-          </svg>
-          Đăng ký độc giả
-        </button>
-      </div>
 
       {/* Readers List Card Grid or Table */}
       <div className="bg-card-app border border-card-border rounded-2xl shadow-sm overflow-hidden">
@@ -147,9 +148,11 @@ export default function ReaderClient({ initialReaders }) {
             </tbody>
           </table>
         </div>
+        </div>
         {readers.length === 0 && (
           <div className="text-center py-12 text-text-muted">Chưa có độc giả nào được đăng ký.</div>
         )}
+      </div>
       </div>
 
       {/* Add/Edit Modal */}
