@@ -45,6 +45,7 @@ export async function createTicket(formData) {
 
   revalidatePath('/borrow')
   revalidatePath('/books')
+  revalidatePath('/readers')
   revalidatePath('/')
 }
 
@@ -86,5 +87,6 @@ export async function returnBook(ticketId) {
 
   revalidatePath('/borrow')
   revalidatePath('/books')
+  revalidatePath('/readers')
   revalidatePath('/')
 }

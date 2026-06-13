@@ -3,13 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npx prisma db push && node prisma/seed.js && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "better-sqlite3": "^12.10.0",
     "next": "16.2.9",
     "react": "19.2.4",
     "react-dom": "19.2.4"

@@ -5,6 +5,16 @@ import { revalidatePath } from 'next/cache'
 
 export async function getReaders() {
   return await prisma.reader.findMany({
+    include: {
+      tickets: {
+        include: {
+          book: true
+        },
+        orderBy: {
+          borrowDate: 'desc'
+        }
+      }
+    },
     orderBy: { createdAt: 'desc' }
   })
 }

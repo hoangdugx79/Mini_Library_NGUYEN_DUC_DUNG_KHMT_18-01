@@ -1,26 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
+/* Định nghĩa Variant Dark Mode dạng Class trong Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc;
+  --foreground: #090d16;
+  --card: #ffffff;
+  --card-border: rgba(9, 13, 22, 0.05);
+  --card-shadow: 0 4px 20px -2px rgba(9, 13, 22, 0.03), 0 2px 8px -1px rgba(9, 13, 22, 0.02);
+  --text-muted: #64748b;
+  --sidebar-bg: #0b0f19;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  --background: #080b11;
+  --foreground: #f3f4f6;
+  --card: #0f1420;
+  --card-border: rgba(243, 244, 246, 0.04);
+  --card-shadow: 0 4px 30px -4px rgba(0, 0, 0, 0.3), 0 2px 12px -2px rgba(0, 0, 0, 0.2);
+  --text-muted: #94a3b8;
+  --sidebar-bg: #07090e;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Định cấu hình biến màu cho Tailwind */
+@theme {
+  --color-bg-app: var(--background);
+  --color-text-app: var(--foreground);
+  --color-card-app: var(--card);
+  --color-card-border: var(--card-border);
+  --color-text-muted: var(--text-muted);
+  --color-sidebar-bg: var(--sidebar-bg);
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+  --font-title: 'Outfit', sans-serif;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Kính mờ cao cấp (Glassmorphism) */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-effect {
+  background: rgba(15, 20, 32, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Animate */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Tùy chỉnh thanh cuộn nhỏ gọn */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
+/* Đảm bảo chữ trong dropdown của select luôn hiển thị rõ ràng trên mọi trình duyệt/hệ điều hành */
+select option {
+  color: #0f172a !important;
+  background-color: #ffffff !important;
 }
